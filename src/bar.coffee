@@ -40,7 +40,7 @@ class Bar
     fnX = ((setCount) ->
       (_i, _j) ->
         gutter = 30
-        (_j * 30 * setCount) + (25 * i) + gutter
+        (_j * 30 * setCount) + (25 * _i) + gutter
     )(@data.datasets.length)
     for dataset, i in @data.datasets
       for datum, j in dataset.data

@@ -4,7 +4,7 @@ class Graph
     # http://code.google.com/p/chromium/issues/detail?id=122846
     @svgElement.removeChild @svgElement.firstChild while @svgElement.firstChild?
     @svgElement.setAttribute 'width', '700'
-    @svgElement.setAttribute 'height', '500'
+    @svgElement.setAttribute 'height', '400'
   #
   # Create a properly namespaced SVG element
   #
