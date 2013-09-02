@@ -1,20 +1,22 @@
 class Graph
   constructor: (@svgElement) ->
-    # clone = @svgElement.cloneNode()
-    # clone = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-    #apply graph class to svgElement
-    # clone.setAttribute 'class', 'graph'
+    #original intent was to clone `svgElement`, but WebKit has a problem with animations and injected `<svg>` nodes.
+    # http://code.google.com/p/chromium/issues/detail?id=122846
+    @svgElement.removeChild @svgElement.firstChild while @svgElement.firstChild?
     @svgElement.setAttribute 'width', '700'
     @svgElement.setAttribute 'height', '500'
-    #replace `svgElement` with new virgin clone
-    # @svgElement.parentNode.replaceChild clone, @svgElement
-    # @svgElement = clone
   #
-  # create a properly namespaced SVG element
+  # Create a properly namespaced SVG element
   #
   # Example:
   #
-  #     var rect = Graph.createSVGElement('rect', {x: 4, y: 4, height: 20, width: 30})
+  #     var rect = Graph.createSVGElement('rect', {
+  #        x: 4,
+  #        y: 4,
+  #        height: 20,
+  #        width: 30
+  #     })
+  #     // => <rect x="4" y="4" height="20" width="30"/>
   @createSVGElement: (nodeName, attributes) ->
     node = document.createElementNS('http://www.w3.org/2000/svg', nodeName)
     if attributes?
