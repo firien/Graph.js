@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>graph.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="bar.html">
+                bar.coffee
+              </a>
+            
+              
+              <a class="source" href="graph.html">
+                graph.coffee
+              </a>
+            
+              
+              <a class="source" href="line.html">
+                line.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>graph.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Graph</span></span>
+  constructor: (<span class="property">@svgElement</span>) -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>original intent was to clone <code>svgElement</code>, but WebKit has a problem with animations and injected <code>&lt;svg&gt;</code> nodes.
+<a href="http://code.google.com/p/chromium/issues/detail?id=122846">http://code.google.com/p/chromium/issues/detail?id=122846</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="property">@svgElement</span>.removeChild <span class="property">@svgElement</span>.firstChild <span class="keyword">while</span> <span class="property">@svgElement</span>.firstChild?
+    <span class="property">@svgElement</span>.setAttribute <span class="string">'width'</span>, <span class="string">'700'</span>
+    <span class="property">@svgElement</span>.setAttribute <span class="string">'height'</span>, <span class="string">'400'</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Create a properly namespaced SVG element</p>
+<p>Example:</p>
+<pre><code>var rect = Graph.createSVGElement(&#39;rect&#39;, {
+   x: 4,
+   y: 4,
+   height: 20,
+   width: 30
+})
+// =&gt; &lt;rect x=&quot;4&quot; y=&quot;4&quot; height=&quot;20&quot; width=&quot;30&quot;/&gt;</code></pre>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="property">@createSVGElement</span>: (nodeName, attributes) -&gt;
+    node = document.createElementNS(<span class="string">'http://www.w3.org/2000/svg'</span>, nodeName)
+    <span class="keyword">if</span> attributes?
+      <span class="keyword">for</span> attr, val <span class="keyword">of</span> attributes
+        node.setAttribute attr, val
+    <span class="keyword">return</span> node</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>expose as <code>Graph</code></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>window.Graph = Graph</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
