@@ -26,17 +26,21 @@ class Bar
     fnY = (_y) -> (height / (graphMin - graphMax)) * (_y - graphMax)
     #draw scale
     y = graphMin
+    g = Graph.createSVGElement('g')
     while y <= graphMax
-      text = document.createElementNS('http://www.w3.org/2000/svg', 'text')
-      text.setAttribute 'x', 0
-      text.setAttribute 'y', fnY(y)
+      text = Graph.createSVGElement('text', {
+        x: 25
+        y: fnY(y)
+      })
       text.appendChild document.createTextNode(y)
-      @svg.appendChild text
+      g.appendChild text
       y += stepValue
+    @svg.appendChild g
     #draw bars
     fnX = ((setCount) ->
       (_i, _j) ->
-        (_j + 1) * (35 * setCount) + (30 * i)
+        gutter = 30
+        (_j * 30 * setCount) + (25 * i) + gutter
     )(@data.datasets.length)
     for dataset, i in @data.datasets
       for datum, j in dataset.data
@@ -44,7 +48,7 @@ class Bar
           x: fnX(i, j)
           y: if animation then height else fnY(datum)
           height: if animation then 0 else height - fnY(datum)
-          width: 30
+          width: 25
           fill: dataset.fillColor
         })
         if dataset.strokeColor?

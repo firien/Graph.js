@@ -4,7 +4,7 @@ class Graph
     # clone = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
     #apply graph class to svgElement
     # clone.setAttribute 'class', 'graph'
-    @svgElement.setAttribute 'width', '600'
+    @svgElement.setAttribute 'width', '700'
     @svgElement.setAttribute 'height', '500'
     #replace `svgElement` with new virgin clone
     # @svgElement.parentNode.replaceChild clone, @svgElement
@@ -17,8 +17,9 @@ class Graph
   #     var rect = Graph.createSVGElement('rect', {x: 4, y: 4, height: 20, width: 30})
   @createSVGElement: (nodeName, attributes) ->
     node = document.createElementNS('http://www.w3.org/2000/svg', nodeName)
-    for attr, val of attributes
-      node.setAttribute attr, val
+    if attributes?
+      for attr, val of attributes
+        node.setAttribute attr, val
     return node
 
 #expose as `Graph`
