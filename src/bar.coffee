@@ -40,42 +40,42 @@ class Bar
     )(@data.datasets.length)
     for dataset, i in @data.datasets
       for datum, j in dataset.data
-        rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-        rect.setAttribute 'x', fnX(i, j)
-        rect.setAttribute 'y', if animation then height else fnY(datum)
-        rect.setAttribute 'height', if animation then 0 else height - fnY(datum)
-        rect.setAttribute 'width', 30
-        rect.setAttribute 'fill', dataset.fillColor
-        rect.setAttribute 'stroke', dataset.strokeColor
-        rect.setAttribute 'stroke-width', 1
+        rect = Graph.createSVGElement('rect', {
+          x: fnX(i, j)
+          y: if animation then height else fnY(datum)
+          height: if animation then 0 else height - fnY(datum)
+          width: 30
+          fill: dataset.fillColor
+        })
+        if dataset.strokeColor?
+          rect.setAttribute 'stroke', dataset.strokeColor
+          rect.setAttribute 'stroke-width', 1
         @svg.appendChild rect
         #animate
         if animation
           #animate y attribute
-          animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate')
-          animate.setAttribute 'attributeName', "y"
-          animate.setAttribute 'attributeType', "XML"
-          animate.setAttribute 'dur', "0.4s"
-          animate.setAttribute 'fill', "freeze"
-          # animate.setAttribute 'from', height
-          # animate.setAttribute 'to', fnY(datum)
-          animate.setAttribute 'values', "#{height}; #{fnY(datum)}"
-          animate.setAttribute 'keyTimes', "0; 1"
-          animate.setAttribute 'keySplines', ".5 0 .5 1"
-          animate.setAttribute 'calcMode', "spline"
+          animate = Graph.createSVGElement('animate', {
+            attributeName: "y"
+            attributeType: "XML"
+            dur: "0.4s"
+            fill: "freeze"
+            values: "#{height}; #{fnY(datum)}"
+            keyTimes: "0; 1"
+            keySplines: ".5 0 .5 1"
+            calcMode: "spline"
+          })
           rect.appendChild animate
           #animate height attribute
-          animate = document.createElementNS('http://www.w3.org/2000/svg', 'animate')
-          animate.setAttribute 'attributeName', "height"
-          animate.setAttribute 'attributeType', "XML"
-          animate.setAttribute 'dur', "0.4s"
-          animate.setAttribute 'fill', "freeze"
-          # animate.setAttribute 'from', 0
-          # animate.setAttribute 'to', height - fnY(datum)
-          animate.setAttribute 'values', "0; #{height - fnY(datum)}"
-          animate.setAttribute 'keyTimes', "0; 1"
-          animate.setAttribute 'keySplines', ".5 0 .5 1"
-          animate.setAttribute 'calcMode', "spline"
+          animate = Graph.createSVGElement('animate', {
+            attributeName: "height"
+            attributeType: "XML"
+            dur: "0.4s"
+            fill: "freeze"
+            values: "0; #{height - fnY(datum)}"
+            keyTimes: "0; 1"
+            keySplines: ".5 0 .5 1"
+            calcMode: "spline"
+          })
           rect.appendChild animate
         # sneaky closure trick for events
         if dataset.fnMouseOver
@@ -83,6 +83,7 @@ class Bar
             rect.addEventListener('mouseover', (e) ->
               dataset.fnMouseOver e, datum
             )
+    # reset 'clock' to trigger animations
     @svg.setCurrentTime 0
     
   # Default Bar Graph options
