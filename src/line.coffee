@@ -4,7 +4,6 @@
 
 class Line
   constructor: (@data, @options, @svg) ->
-    animation = true
     #ensure labels and datasets have same count
     for dataset in @data.datasets
       if dataset.data.length != @data.labels.length
@@ -44,6 +43,8 @@ class Line
       d = "M 30 #{height} "
       dStart = "M 30 #{height} "
       path = Graph.createSVGElement('path', {
+        # fillColor should have opacity, or it will obscure other paths
+        # unless there is only one dataset
         fill: dataset.fillColor
       })
       d += "V #{fnY(dataset.data[0])} "
@@ -53,14 +54,14 @@ class Line
         y1 = fnY(previousValue)
         x2 = fnX(index)
         y2 = fnY(currentValue)
-        x3 = x1 + ((x2 - x1) / 2)
-        d += "C #{x3} #{y1} #{x3} #{y2} #{x2} #{y2} "
-        dStart += "C #{x3} #{height} #{x3} #{height} #{x2} #{height} "
+        cpX = x1 + ((x2 - x1) / 2)
+        d += "C #{cpX} #{y1} #{cpX} #{y2} #{x2} #{y2} "
+        dStart += "C #{cpX} #{height} #{cpX} #{height} #{x2} #{height} "
         return currentValue
       d += "V #{height} z"
       dStart += "V #{height} z"
-      path.setAttribute 'd', if animation then dStart else d
-      if animation
+      path.setAttribute 'd', if @options.animation then dStart else d
+      if @options.animation
         #animate d attribute
         animate = Graph.createSVGElement('animate', {
           attributeName: "d"
@@ -76,8 +77,15 @@ class Line
         path.appendChild animate
       @svg.appendChild path
     # reset 'clock' to trigger animations
-    @svg.setCurrentTime 0
-    
+    @svg.setCurrentTime 0 if @options.animation
+
+   # Default Line Graph options
+   @defaults = {
+     animation: true
+   }
   #extend `Graph`
-Graph::Line = (data, options) ->
+Graph::Line = (data, options={}) ->
+  for key, value of Line.defaults
+    unless options.hasOwnProperty key
+      options[key] = value
   new Line(data, options, @svgElement)
