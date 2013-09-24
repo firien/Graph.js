@@ -9,7 +9,7 @@ task 'build', 'Build project from src/*.coffee to lib/*.js', ->
 
 task "compile", "Build project from src/*.coffee to lib/app.js", ->
   #order matters!
-  listOfFiles = "src/graph.coffee src/bar.coffee src/line.coffee"
+  listOfFiles = "src/graph.coffee src/bar.coffee src/line.coffee src/polar.coffee"
   exec "coffee -j app.js -c -o lib/ " + listOfFiles, (err, stdout, stderr) ->
     throw err if err
     console.log stdout + stderr
