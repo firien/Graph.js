@@ -88,7 +88,7 @@ class Bar
             )
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
-    
+
   # Default Bar Graph options
   @defaults = {
     animation: true

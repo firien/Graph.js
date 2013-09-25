@@ -13,8 +13,8 @@ class Polar
     )
     rangeOrderOfMagnitude = Math.floor(Math.log(max - min) / Math.LN10)
     stepValue = Math.pow(10, rangeOrderOfMagnitude)
-    graphMin = Math.floor(min / (1 * stepValue)) * stepValue  
-    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue  
+    graphMin = Math.floor(min / (1 * stepValue)) * stepValue
+    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue
     numberOfSteps = Math.round((graphMax - graphMin) / stepValue)
     height = 375
     fnY = (x) ->
@@ -34,7 +34,8 @@ class Polar
       g.appendChild circle
       y += stepValue
     @svg.appendChild g
-    #draw chords
+    #draw sectors
+    #
     #find x, y of any point on circle with center at 
     fnXY = (r,_theta) -> {
       x: r * Math.cos(_theta - Math.PI / 2) + height / 2
@@ -50,7 +51,8 @@ class Polar
         # fillColor should have opacity, or it will obscure other paths
         # unless there is only one dataset
         fill: datum.fillColor
-        stroke: 'black'
+        stroke: '#ddd'
+        'fill-opacity': 0.8
       })
       d += "L #{p1.x} #{p1.y} "
       dStart += "?? "
@@ -77,10 +79,14 @@ class Polar
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
 
-   # Default Polar Graph options
-   @defaults = {
-     animation: false
-   }
+  # Default Polar Graph options
+  @defaults = {
+    animation: false
+    scaleOverride: false
+    scaleSteps: null
+    scaleStepWidth: null
+    scaleStartValue: null
+  }
   #extend `Graph`
 Graph::Polar = (data, options={}) ->
   for key, value of Polar.defaults

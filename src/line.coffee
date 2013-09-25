@@ -82,10 +82,10 @@ class Line
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
 
-   # Default Line Graph options
-   @defaults = {
-     animation: true
-   }
+  # Default Line Graph options
+  @defaults = {
+    animation: true
+  }
   #extend `Graph`
 Graph::Line = (data, options={}) ->
   for key, value of Line.defaults
