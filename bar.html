@@ -33,6 +33,11 @@
                 line.coffee
               </a>
             
+              
+              <a class="source" href="polar.html">
+                polar.coffee
+              </a>
+            
           </div>
         </li>
       </ul>
@@ -59,8 +64,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Bar</span></span>
-  constructor: (<span class="property">@data</span>, <span class="property">@options</span>, <span class="property">@svg</span>) -&gt;
-    animation = <span class="literal">true</span></pre></div></div>
+  constructor: (<span class="property">@data</span>, <span class="property">@options</span>, <span class="property">@svg</span>) -&gt;</pre></div></div>
             
         </li>
         
@@ -167,8 +171,8 @@
       <span class="keyword">for</span> datum, j <span class="keyword">in</span> dataset.data
         rect = Graph.createSVGElement(<span class="string">'rect'</span>, {
           x: fnX(i, j)
-          y: <span class="keyword">if</span> animation <span class="keyword">then</span> height <span class="keyword">else</span> fnY(datum)
-          height: <span class="keyword">if</span> animation <span class="keyword">then</span> <span class="number">0</span> <span class="keyword">else</span> height - fnY(datum)
+          y: <span class="keyword">if</span> <span class="property">@options</span>.animation <span class="keyword">then</span> height <span class="keyword">else</span> fnY(datum)
+          height: <span class="keyword">if</span> <span class="property">@options</span>.animation <span class="keyword">then</span> <span class="number">0</span> <span class="keyword">else</span> height - fnY(datum)
           width: <span class="number">25</span>
           fill: dataset.fillColor
         })
@@ -190,7 +194,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> animation</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="keyword">if</span> <span class="property">@options</span>.animation</pre></div></div>
             
         </li>
         
@@ -274,7 +278,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="property">@svg</span>.setCurrentTime <span class="number">0</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="property">@svg</span>.setCurrentTime <span class="number">0</span> <span class="keyword">if</span> <span class="property">@options</span>.animation</pre></div></div>
             
         </li>
         
@@ -289,7 +293,9 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="property">@defaults</span> = {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="property">@defaults</span> = {
+    animation: <span class="literal">true</span>
+  }</pre></div></div>
             
         </li>
         
@@ -300,373 +306,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
-              <p>Boolean - If we show the scale above the chart data</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleOverlay : <span class="literal">false</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-14">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
-              </div>
-              <p>Boolean - If we want to override with a hard coded scale</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleOverride : <span class="literal">false</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-15">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
-              </div>
-              <p><strong>Required if scaleOverride is true</strong></p>
-<p>Number - The number of steps in a hard coded scale</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleSteps : <span class="literal">null</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
-              </div>
-              <p>  Number - The value jump in the hard coded scale</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleStepWidth : <span class="literal">null</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
-              </div>
-              <p>Number - The scale starting value</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleStartValue : <span class="literal">null</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-18">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
-              </div>
-              <p>String - Colour of the scale line</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleLineColor : <span class="string">"rgba(0,0,0,.1)"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-19">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
-              </div>
-              <p>Number - Pixel width of the scale line</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleLineWidth : <span class="number">1</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-20">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
-              </div>
-              <p>Boolean - Whether to show labels on the scale</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleShowLabels : <span class="literal">true</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-21">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
-              </div>
-              <p>Interpolated JS string - can access value</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleLabel : <span class="string">"&lt;%=value%&gt;"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-22">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
-              </div>
-              <p>String - Scale label font declaration for the scale label</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleFontFamily : <span class="string">"'Arial'"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-23">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
-              </div>
-              <p>Number - Scale label font size in pixels</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleFontSize : <span class="number">12</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-24">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
-              </div>
-              <p>String - Scale label font weight style</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleFontStyle : <span class="string">"normal"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-25">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
-              </div>
-              <p>String - Scale label font colour</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleFontColor : <span class="string">"#666"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-26">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
-              </div>
-              <p>Boolean - Whether grid lines are shown across the chart</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleShowGridLines : <span class="literal">true</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-27">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-27">&#182;</a>
-              </div>
-              <p>String - Colour of the grid lines</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleGridLineColor : <span class="string">"rgba(0,0,0,.05)"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-28">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-28">&#182;</a>
-              </div>
-              <p>Number - Width of the grid lines</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	scaleGridLineWidth : <span class="number">1</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-29">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-29">&#182;</a>
-              </div>
-              <p>Boolean - If there is a stroke on each bar</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	barShowStroke : <span class="literal">true</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-30">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-30">&#182;</a>
-              </div>
-              <p>Number - Pixel width of the bar stroke</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	barStrokeWidth : <span class="number">2</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-31">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-31">&#182;</a>
-              </div>
-              <p>Number - Spacing between each of the X value sets</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	barValueSpacing : <span class="number">5</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-32">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-32">&#182;</a>
-              </div>
-              <p>Number - Spacing between data sets within X values</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	barDatasetSpacing : <span class="number">1</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-33">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-33">&#182;</a>
-              </div>
-              <p>Boolean - Whether to animate the chart</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	animation : <span class="literal">true</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-34">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-34">&#182;</a>
-              </div>
-              <p>Number - Number of animation steps</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	animationSteps : <span class="number">60</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-35">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-35">&#182;</a>
-              </div>
-              <p>String - Animation easing effect</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	animationEasing : <span class="string">"easeOutQuart"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-36">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-36">&#182;</a>
-              </div>
-              <p>Function - Fires when the animation is complete</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  	onAnimationComplete : <span class="literal">null</span>
-  }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-37">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-37">&#182;</a>
-              </div>
               <p>extend <code>Graph</code></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>Graph::<span class="function"><span class="title">Bar</span></span> = (data, options) -&gt;
+            <div class="content"><div class='highlight'><pre>Graph::<span class="function"><span class="title">Bar</span></span> = (data, options={}) -&gt;
+  <span class="keyword">for</span> key, value <span class="keyword">of</span> Bar.defaults
+    <span class="keyword">unless</span> options.hasOwnProperty key
+      options[key] = value
   <span class="keyword">new</span> Bar(data, options, <span class="property">@svgElement</span>)</pre></div></div>
             
         </li>

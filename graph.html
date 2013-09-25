@@ -33,6 +33,11 @@
                 line.coffee
               </a>
             
+              
+              <a class="source" href="polar.html">
+                polar.coffee
+              </a>
+            
           </div>
         </li>
       </ul>
@@ -103,7 +108,10 @@
     <span class="keyword">if</span> attributes?
       <span class="keyword">for</span> attr, val <span class="keyword">of</span> attributes
         node.setAttribute attr, val
-    <span class="keyword">return</span> node</pre></div></div>
+    <span class="keyword">return</span> node
+
+  defaults = {
+    format: {</pre></div></div>
             
         </li>
         
@@ -114,11 +122,206 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
+              <p>These five are to override number.format and are optional</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      delimiter: <span class="string">""</span>,
+      precision: <span class="number">3</span>,
+      significant: <span class="literal">true</span>,
+      stripInsignificantZeros: <span class="literal">true</span>
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Used in number_to_human_size</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    storageUnits: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Storage units output formatting.
+%u is the storage unit, %n is the number (default: 2 MB)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      format: <span class="string">"%n %u"</span>,
+      units: {
+        byte: <span class="string">"Bytes"</span>,
+        kb: <span class="string">"KB"</span>,
+        mb: <span class="string">"MB"</span>,
+        gb: <span class="string">"GB"</span>,
+        tb: <span class="string">"TB"</span>
+      }
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Used in number_to_human</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    decimalUnits: {
+      format: <span class="string">"%n %u"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Decimal units output formatting
+By default we will only quantify some of the exponents
+but the commented ones might be defined or overridden
+by the user.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      units: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>femto: Quadrillionth
+pico: Trillionth
+nano: Billionth
+micro: Millionth
+mili: Thousandth
+centi: Hundredth
+deci: Tenth</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        unit: <span class="string">""</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>ten:
+  one: Ten
+  other: Tens
+hundred: Hundred</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        thousand: <span class="string">"k"</span>,
+        million: <span class="string">"M"</span>,
+        billion: <span class="string">"B"</span>,
+        trillion: <span class="string">"T"</span>,
+        quadrillion: <span class="string">"Q"</span>
+      }
+    }
+  }
+  decimalUnits = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>decimalUnits[0] = &#39;unit&#39;</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  decimalUnits[<span class="number">3</span>] = <span class="string">'k'</span>
+  decimalUnits[<span class="number">6</span>] = <span class="string">'M'</span>
+  decimalUnits[<span class="number">9</span>] = <span class="string">'B'</span>
+  decimalUnits[<span class="number">12</span>] = <span class="string">'T'</span>
+  decimalUnits[<span class="number">15</span>] = <span class="string">'Q'</span>
+  decimalUnits[-<span class="number">1</span>] = <span class="string">'deci'</span>
+  decimalUnits[-<span class="number">2</span>] = <span class="string">'centi'</span>
+  decimalUnits[-<span class="number">3</span>] = <span class="string">'mili'</span>
+  decimalUnits[-<span class="number">6</span>] = <span class="string">'micro'</span>
+  decimalUnits[-<span class="number">9</span>] = <span class="string">'nano'</span>
+  decimalUnits[-<span class="number">12</span>] = <span class="string">'pico'</span>
+  decimalUnits[-<span class="number">15</span>] = <span class="string">'femto'</span>
+
+  <span class="property">@numberToHuman</span>: (number, options={}) -&gt;
+    <span class="keyword">return</span> number <span class="keyword">if</span> isNaN number
+    number = Number(number)
+
+    numberExponent = <span class="keyword">if</span> number != <span class="number">0</span> <span class="keyword">then</span> Math.floor((Math.log(Math.abs(number)) / Math.LN10)) <span class="keyword">else</span> <span class="number">0</span>
+    displayExponent = Math.floor(numberExponent / <span class="number">3</span>) * <span class="number">3</span>
+    number /= (Math.pow(<span class="number">10</span>, displayExponent))
+
+    unit = decimalUnits[displayExponent]
+    <span class="keyword">if</span> unit
+      decimal_format = <span class="string">"%n %u"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>formatted_number = self.number_to_rounded(number, options)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      decimal_format.replace(<span class="regexp">/%n/, number).replace(/%u/</span>, unit)
+    <span class="keyword">else</span>
+      number</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
               <p>expose as <code>Graph</code></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>window.Graph = Graph</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="keyword">this</span>.Graph = Graph
+console.log Graph.numberToHuman(<span class="number">550</span>)</pre></div></div>
             
         </li>
         
