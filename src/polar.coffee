@@ -4,39 +4,46 @@
 
 class Polar
   constructor: (@data, @options, @svg) ->
-    #determine scale
-    min = Math.min.apply(null, @data.map (element) ->
-      element.value
-    )
-    max = Math.max.apply(null, @data.map (element) ->
-      element.value
-    )
-    rangeOrderOfMagnitude = Math.floor(Math.log(max - min) / Math.LN10)
-    stepValue = Math.pow(10, rangeOrderOfMagnitude)
-    graphMin = Math.floor(min / (1 * stepValue)) * stepValue
-    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue
-    numberOfSteps = Math.round((graphMax - graphMin) / stepValue)
     height = 375
+    #determine scale
+    if @options.scaleOverride
+      stepValue = @options.scaleStepWidth
+      graphMin = @options.scaleStartValue
+      graphMax = stepValue * @options.scaleSteps
+    else
+      min = Math.min.apply(null, @data.map (element) ->
+        element.value
+      )
+      max = Math.max.apply(null, @data.map (element) ->
+        element.value
+      )
+      rangeOrderOfMagnitude = Math.floor(Math.log(max - min) / Math.LN10)
+      stepValue = Math.pow(10, rangeOrderOfMagnitude)
+      graphMin = Math.floor(min / (1 * stepValue)) * stepValue
+      graphMax = Math.ceil(max / (1 * stepValue)) * stepValue
     fnY = (x) ->
       #y = mx + b
-      #y = (y1-y2) / (x1-x2) * (x - x1) + y1
+      #y = (y1-y2) / (x1-x2) * (x-x1) + y1
       ((height / 2 - 0) / (graphMin - graphMax)) * (x - graphMin) + (height / 2)
     #draw scale
     y = graphMin
     g = Graph.createSVGElement('g')
     while y <= graphMax
-      circle = Graph.createSVGElement('circle', {
-        cx: height / 2
-        cy: height / 2
-        r:  fnY(y)
-      })
-      # text.appendChild document.createTextNode(y)
-      g.appendChild circle
+      _r = height / 2 - fnY(y)
+      if _r > 0
+        circle = Graph.createSVGElement('circle', {
+          cx: height / 2
+          cy: height / 2
+          r:  _r
+          data: y
+        })
+        # text.appendChild document.createTextNode(y)
+        g.appendChild circle
       y += stepValue
     @svg.appendChild g
     #draw sectors
     #
-    #find x, y of any point on circle with center at 
+    #find x, y of any point on circle with center at
     fnXY = (r,_theta) -> {
       x: r * Math.cos(_theta - Math.PI / 2) + height / 2
       y: r * Math.sin(_theta - Math.PI / 2) + height / 2
