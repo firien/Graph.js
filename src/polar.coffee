@@ -4,7 +4,11 @@
 
 class Polar
   constructor: (@data, @options, @svg) ->
-    height = 375
+    group = Graph.createSVGElement('g', {
+      class: 'polar',
+      transform: 'translate(5,10)'
+    })
+    height = @options.scaleSize
     #determine scale
     if @options.scaleOverride
       stepValue = @options.scaleStepWidth
@@ -37,10 +41,9 @@ class Polar
           r:  _r
           data: y
         })
-        # text.appendChild document.createTextNode(y)
         g.appendChild circle
       y += stepValue
-    @svg.appendChild g
+    group.appendChild g
     #draw sectors
     #
     #find x, y of any point on circle with center at
@@ -49,6 +52,7 @@ class Polar
       y: r * Math.sin(_theta - Math.PI / 2) + height / 2
     }
     theta = 0
+    g = Graph.createSVGElement('g')
     for datum, j in @data
       d = "M #{height / 2} #{height / 2} "
       _r = height / 2 - fnY(datum.value)
@@ -82,9 +86,74 @@ class Polar
           calcMode: "spline"
         })
         path.appendChild animate
-      @svg.appendChild path
+      g.appendChild path
+    group.appendChild g
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
+    #draw scale
+    y = graphMin
+    g = Graph.createSVGElement('g', {class: 'scale'})
+    while y <= graphMax
+      _r = fnY(y)
+      if y > 0
+        text = Graph.createSVGElement('text', {
+          x: height / 2
+          y: _r
+        })
+        text.appendChild document.createTextNode(y)
+        g.appendChild text
+      y += stepValue
+    group.appendChild g
+    #legend
+    g = Graph.createSVGElement('g', {class: 'legend'})
+    size = 20
+    step = Math.floor((height - (@data.length * size)) / (@data.length - 1))
+    for datum, j in @data
+      rect = Graph.createSVGElement('rect', {
+        x: height + 0.5 + 10
+        y: j * (size + step) + 0.5
+        width: size
+        height: size
+        fill: datum.fillColor
+      })
+      g.appendChild rect
+      text = Graph.createSVGElement('text', {
+        x: height + 0.5 + 40
+        y: j * (size + step) + 0.5 + 10
+      })
+      text.appendChild document.createTextNode(datum.label)
+      g.appendChild text
+    group.appendChild g
+    @svg.appendChild group
+
+  @injectStyles = ->
+    style = document.querySelector('style[title=polar]')
+    unless style?
+      style = document.createElement "style"
+      style.setAttribute('title', 'polar')
+      # WebKit hack :(
+      # style.appendChild(document.createTextNode(""))
+      document.head.appendChild style
+      #add rules
+      Graph.addRule(style.sheet, "g.polar circle", {
+        fill: 'none'
+        stroke: "#ccc"
+      })
+      Graph.addRule(style.sheet, "g.polar g.scale text", {
+        'alignment-baseline': 'middle'
+        'text-anchor': 'middle'
+        'pointer-events': 'none'
+        'font-family': 'Helvetica'
+        'font-size': '0.8em'
+        fill: "#666"
+      })
+      Graph.addRule(style.sheet, "g.polar g.legend rect", {
+        stroke: "#222"
+      })
+      Graph.addRule(style.sheet, "g.polar g.legend text", {
+        'alignment-baseline': 'middle'
+        'font-family': 'Helvetica'
+      })
 
   # Default Polar Graph options
   @defaults = {
@@ -93,6 +162,7 @@ class Polar
     scaleSteps: null
     scaleStepWidth: null
     scaleStartValue: null
+    scaleSize: 350
   }
   #extend `Graph`
 Graph::Polar = (data, options={}) ->
@@ -100,3 +170,4 @@ Graph::Polar = (data, options={}) ->
     unless options.hasOwnProperty key
       options[key] = value
   new Polar(data, options, @svgElement)
+  Polar.injectStyles()

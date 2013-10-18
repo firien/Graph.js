@@ -24,5 +24,10 @@ class Graph
         node.setAttribute attr, val
     return node
 
+  @addRule: (sheet, selector, rules) ->
+    css = []
+    for key of rules
+      css.push "#{key}:#{rules[key]};"
+    sheet.addRule selector, css.join("")
 #expose as `Graph`
-window.Graph = Graph
+this.Graph = Graph
