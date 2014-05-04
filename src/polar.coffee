@@ -54,10 +54,11 @@ class Polar
     theta = 0
     g = Graph.createSVGElement('g')
     for datum, j in @data
-      d = "M #{height / 2} #{height / 2} "
+      cx = height / 2
+      d = "M #{cx} #{cx} "
       _r = height / 2 - fnY(datum.value)
       p1 = fnXY(_r, theta)
-      dStart = "M #{height / 2} #{height / 2} "
+      dStart = "M #{cx} #{cx} "
       path = Graph.createSVGElement('path', {
         # fillColor should have opacity, or it will obscure other paths
         # unless there is only one dataset
@@ -66,11 +67,11 @@ class Polar
         'fill-opacity': 0.8
       })
       d += "L #{p1.x} #{p1.y} "
-      dStart += "?? "
+      dStart += "L #{cx} #{cx} "
       theta += (2 * Math.PI / @data.length)
       p2 = fnXY(_r, theta)
       d += "A #{_r} #{_r} 0 0 1 #{p2.x} #{p2.y} z"
-      dStart += "V #{height} "
+      dStart += "A 1 1 0 0 1 #{cx} #{cx} z"
       path.setAttribute 'd', if @options.animation then dStart else d
       if @options.animation
         #animate d attribute
