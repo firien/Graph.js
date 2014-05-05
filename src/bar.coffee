@@ -17,8 +17,8 @@ class Bar
     )
     rangeOrderOfMagnitude = Math.floor(Math.log(max - min) / Math.LN10)
     stepValue = Math.pow(10, rangeOrderOfMagnitude)
-    graphMin = Math.floor(min / (1 * stepValue)) * stepValue  
-    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue  
+    graphMin = Math.floor(min / (1 * stepValue)) * stepValue
+    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue
     numberOfSteps = Math.round((graphMax - graphMin) / stepValue)
     height = 375
     #y = mx + b
@@ -86,6 +86,7 @@ class Bar
             rect.addEventListener('mouseover', (e) ->
               dataset.fnMouseOver e, datum
             )
+            return
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
 

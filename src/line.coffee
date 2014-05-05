@@ -17,8 +17,8 @@ class Line
     )
     rangeOrderOfMagnitude = Math.floor(Math.log(max - min) / Math.LN10)
     stepValue = Math.pow(10, rangeOrderOfMagnitude)
-    graphMin = Math.floor(min / (1 * stepValue)) * stepValue  
-    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue  
+    graphMin = Math.floor(min / (1 * stepValue)) * stepValue
+    graphMax = Math.ceil(max / (1 * stepValue)) * stepValue
     numberOfSteps = Math.round((graphMax - graphMin) / stepValue)
     height = 375
     #y = mx + b
