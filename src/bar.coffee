@@ -35,10 +35,11 @@ class Bar
       g.appendChild text
       y += stepValue
     @svg.appendChild g
+    rect = g.getBBox()
     #draw bars
+    gutter = rect.x + rect.width
     fnX = ((setCount) ->
       (_i, _j) ->
-        gutter = 30
         (_j * 30 * setCount) + (25 * _i) + gutter
     )(@data.datasets.length)
     for dataset, i in @data.datasets

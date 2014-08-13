@@ -36,12 +36,13 @@ class Line
       y += stepValue
     @svg.appendChild g
     #draw lines
+    rect = g.getBBox()
+    gutter = rect.x + rect.width
     fnX = (_j) ->
-      gutter = 30
-      (_j * 90) + gutter
+      (_j * 70) + gutter
     for dataset, i in @data.datasets
-      d = "M 30 #{height} "
-      dStart = "M 30 #{height} "
+      d = "M #{gutter} #{height} "
+      dStart = "M #{gutter} #{height} "
       path = Graph.createSVGElement('path', {
         # fillColor should have opacity, or it will obscure other paths
         # unless there is only one dataset
