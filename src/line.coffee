@@ -50,18 +50,26 @@ class Line
       })
       d += "V #{fnY(dataset.data[0])} "
       dStart += "V #{height} "
-      dataset.data.reduce (previousValue, currentValue, index) ->
-        # cubic bezier curve from x1, y1 to x2, y2
-        x1 = fnX(index - 1)
-        y1 = fnY(previousValue)
-        x2 = fnX(index)
-        y2 = fnY(currentValue)
-        # both control points have same X value
-        #  halfway between x1 and x2
-        cpX = x1 + ((x2 - x1) / 2)
-        d += "C #{cpX} #{y1} #{cpX} #{y2} #{x2} #{y2} "
-        dStart += "C #{cpX} #{height} #{cpX} #{height} #{x2} #{height} "
-        return currentValue
+      if @options.bezierCurve
+        dataset.data.reduce (previousValue, currentValue, index) ->
+          # cubic bezier curve from x1, y1 to x2, y2
+          x1 = fnX(index - 1)
+          y1 = fnY(previousValue)
+          x2 = fnX(index)
+          y2 = fnY(currentValue)
+          # both control points have same X value
+          #  halfway between x1 and x2
+          cpX = x1 + ((x2 - x1) / 2)
+          d += "C #{cpX} #{y1} #{cpX} #{y2} #{x2} #{y2} "
+          dStart += "C #{cpX} #{height} #{cpX} #{height} #{x2} #{height} "
+          return currentValue
+      else#line
+        dataset.data.reduce (previousValue, currentValue, index) ->
+          x2 = fnX(index)
+          y2 = fnY(currentValue)
+          d += "L #{x2} #{y2} "
+          dStart += "L #{x2} #{height} "
+          return currentValue
       d += "V #{height} z"
       dStart += "V #{height} z"
       path.setAttribute 'd', if @options.animation then dStart else d
@@ -86,6 +94,7 @@ class Line
   # Default Line Graph options
   @defaults = {
     animation: true
+    bezierCurve: true
   }
   #extend `Graph`
 Graph::Line = (data, options={}) ->
