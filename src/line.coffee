@@ -88,6 +88,12 @@ class Line
         })
         path.appendChild animate
       @svg.appendChild path
+      if dataset.fnMouseOver
+        do (dataset) ->
+          path.addEventListener('mouseover', (e) ->
+            dataset.fnMouseOver e, dataset.data
+          )
+          return
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
 
