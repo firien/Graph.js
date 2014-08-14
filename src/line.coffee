@@ -35,11 +35,20 @@ class Line
       g.appendChild text
       y += stepValue
     @svg.appendChild g
-    #draw lines
     rect = g.getBBox()
     gutter = rect.x + rect.width
     fnX = (_j) ->
       (_j * 70) + gutter
+    # x-axis labels??
+    for label, i in @data.labels
+      text = Graph.createSVGElement('text', {
+        'text-anchor': 'middle'
+        x: fnX(i)
+        y: height + 20
+      })
+      text.appendChild document.createTextNode(label)
+      @svg.appendChild text
+    #plot data
     for dataset, i in @data.datasets
       d = "M #{gutter} #{height} "
       dStart = "M #{gutter} #{height} "
@@ -96,7 +105,26 @@ class Line
           return
     # reset 'clock' to trigger animations
     @svg.setCurrentTime 0 if @options.animation
-
+    #legend?
+    g = Graph.createSVGElement('g', {class: 'legend'})
+    size = 20
+    step = Math.floor((height - (@data.datasets.length * size)) / (@data.datasets.length - 1))
+    for datum, j in @data.datasets
+      rect = Graph.createSVGElement('rect', {
+        x: height + 0.5 + 10
+        y: j * (size + step) + 0.5
+        width: size
+        height: size
+        fill: datum.fillColor
+      })
+      g.appendChild rect
+      text = Graph.createSVGElement('text', {
+        x: height + 0.5 + 40
+        y: j * (size + step) + 0.5 + 10
+      })
+      text.appendChild document.createTextNode(datum.label)
+      g.appendChild text
+    @svg.appendChild g
   # Default Line Graph options
   @defaults = {
     animation: true
